@@ -1,21 +1,46 @@
 const express = require('express')
 const app = express()
+const fs = require('fs')
+app.use(express.json())
+app.use(express.urlencoded({extended:true }))
 
 app.get('/',(req,res)=>{
-    res.send(`
-        <h1>Welcome to Express world</h1>
-        `)
+fs.readFile('./pages/index.html',(err,data)=>{
+    if(err){
+        console.log(err);
+    }
+    else{
+        res.write(data)
+        res.end()
+    }
+})
+
+
 })
 
 app.get('/about',(req,res)=>{
-    res.json({
-        "developer ":"asibul alam",
-        "Teacher":"hm nayem"
+    fs.readFile('./pages/about.html',(err,data)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.write(data)
+            res.end()
+        }
     })
 })
 
-app.get('/error',(req,res)=>{
-   res.status(400).send("Bad Request")
+app.get('/help',(req,res)=>{
+    fs.readFile('./pages/help.html',(err,data)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.write(data)
+            res.end()
+
+        }
+    })
 })
 
 app.listen(4000,()=>{
