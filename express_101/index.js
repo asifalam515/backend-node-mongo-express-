@@ -6,7 +6,7 @@ const morgan = require('morgan')
 
 
 app.use(globalMiddleWare)
-
+app.use(require('./routes'))
 
 function globalMiddleWare(req,res,next){
     console.log(`${req.method} -- ${req.url}`);
@@ -26,44 +26,6 @@ const localMiddleWare =(req,res,next)=>{
 
 
 
-app.get('/',(req,res)=>{
-fs.readFile('./pages/index.html',(err,data)=>{
-    if(err){
-        console.log(err);
-    }
-    else{
-        res.write(data)
-        res.end()
-    }
-})
-
-
-})
-
-app.get('/about',localMiddleWare,(req,res)=>{
-    fs.readFile('./pages/about.html',(err,data)=>{
-        if(err){
-            console.log(err);
-        }
-        else{
-            res.write(data)
-            res.end()
-        }
-    })
-})
-
-app.get('/help',(req,res)=>{
-    fs.readFile('./pages/help.html',(err,data)=>{
-        if(err){
-            console.log(err);
-        }
-        else{
-            res.write(data)
-            res.end()
-
-        }
-    })
-})
 
 app.listen(4000,()=>{
     console.log("Server is listening on PORT : 4000");
