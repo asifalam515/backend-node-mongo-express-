@@ -1,8 +1,30 @@
 const express = require('express')
 const app = express()
 const fs = require('fs')
-app.use(express.json())
-app.use(express.urlencoded({extended:true }))
+const cors =require('cors')
+const morgan = require('morgan')
+
+
+app.use(globalMiddleWare)
+
+
+function globalMiddleWare(req,res,next){
+    console.log(`${req.method} -- ${req.url}`);
+    console.log(`I am a global middleWare`);
+    if(req.query.bad){
+        return req.status(400).send("Bad request")
+    }
+
+    next()
+}
+
+
+const localMiddleWare =(req,res,next)=>{
+    console.log("I am a local middleWare");
+    next()
+}
+
+
 
 app.get('/',(req,res)=>{
 fs.readFile('./pages/index.html',(err,data)=>{
@@ -18,7 +40,7 @@ fs.readFile('./pages/index.html',(err,data)=>{
 
 })
 
-app.get('/about',(req,res)=>{
+app.get('/about',localMiddleWare,(req,res)=>{
     fs.readFile('./pages/about.html',(err,data)=>{
         if(err){
             console.log(err);
