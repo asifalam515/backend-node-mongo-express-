@@ -3,10 +3,30 @@ const app = express()
 const fs = require('fs')
 const cors =require('cors')
 const morgan = require('morgan')
+const { error } = require('console')
 
 
 app.use(globalMiddleWare)
 app.use(require('./routes'))
+
+app.use((req,res,next)=>{ //jekono router er jnno eta use hobe
+const error = new Error('404 not found !')
+error.status =404;
+next(error)
+ 
+})
+
+
+// global error middleware
+app.use((err,req,res,next)=>{
+    console.log("Error ", err);
+if(err.status){
+
+    return res.status(err.status).send(err.message)
+
+}
+res.status(500).send(` <h1>Something went wrong</h1>  `)
+})
 
 function globalMiddleWare(req,res,next){
     console.log(`${req.method} -- ${req.url}`);

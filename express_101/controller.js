@@ -1,6 +1,10 @@
 
+const { error } = require('console');
 const fs =require('fs')
-export const homeController =(req,res)=>{
+const homeController =(req,res)=>{
+    const error = new Error("Bad Request")
+    error.status =400
+    throw error;
     fs.readFile('./pages/index.html',(err,data)=>{
         if(err){
             console.log(err);
@@ -14,7 +18,7 @@ export const homeController =(req,res)=>{
     
     }
 
-    export const aboutController=(req,res)=>{
+ const aboutController=(req,res)=>{
     fs.readFile('./pages/about.html',(err,data)=>{
         if(err){
             console.log(err);
@@ -26,7 +30,7 @@ export const homeController =(req,res)=>{
     })
 }
 
- export const helpController = (req,res)=>{
+const helpController = (req,res)=>{
     fs.readFile('./pages/help.html',(err,data)=>{
         if(err){
             console.log(err);
@@ -37,4 +41,9 @@ export const homeController =(req,res)=>{
 
         }
     })
+}
+module.exports ={
+    helpController,
+    aboutController,
+    homeControllerd
 }
